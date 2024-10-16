@@ -1,0 +1,29 @@
+.headBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+    flex-wrap: wrap;
+    margin: 50px;
+}
+.boxUser{
+    width: 20vw;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.user{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+button{
+    width: 70%;
+    height: 10%;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
