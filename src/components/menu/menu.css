@@ -1,0 +1,12 @@
+.ulMenu{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 40px;
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    color: black;
+
+}
