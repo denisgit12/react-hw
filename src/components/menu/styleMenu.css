@@ -1,0 +1,14 @@
+ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 60px;
+}
+li{
+list-style: none;
+}
+a{
+    color: #282c34;
+    cursor: pointer;
+    text-decoration: none;
+}
