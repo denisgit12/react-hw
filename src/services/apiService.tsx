@@ -13,7 +13,6 @@ export const userService = {
         const data = response.data;
         return data.users;
     }
-
 };
 export const postService = {
     getPostOfUser: async (id: number): Promise<IPost> => {
