@@ -12,6 +12,7 @@ const Products: FC = () => {
     }, [])
 
     return (
+
         <div>
             {users.map((value:IProductModels, index:number) => <Product key={index} user={value}/>)}
         </div>
