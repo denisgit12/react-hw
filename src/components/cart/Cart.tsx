@@ -16,4 +16,5 @@ const Cart: FC<CartProps> = ({cart}) => {
     );
 };
 
+
 export default Cart;
