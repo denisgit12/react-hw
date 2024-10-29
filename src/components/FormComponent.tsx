@@ -15,7 +15,6 @@ const FormComponent = () => {
             errors,
             isValid
         }
-
     } = useForm<IFormProps>({mode: 'all', resolver: joiResolver(postValidator)});
 
     const customHandler = (dataFromForm: IFormProps) => {
