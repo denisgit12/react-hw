@@ -1,0 +1,18 @@
+.headBoxHeader{
+    display: flex;
+    width: 400px;
+}
+ul{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 200px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
