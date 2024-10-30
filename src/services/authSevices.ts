@@ -31,13 +31,18 @@ export const getProducts = async (): Promise<IProduct[]> => {
 export const refresh = async () => {
     const tokensOld = retriveLocalStorage<ITokens>('tokens');
 
-    const {data: {accessToken, refreshToken}} = await axiosInstance.post<ITokens>('/refresh', {
+    const data = await axiosInstance.post<ITokens>('/refresh', {
         refreshToken: tokensOld.refreshToken,
         expiresInMins: 1
     })
-    tokensOld.accessToken = accessToken;
-    tokensOld.refreshToken = refreshToken;
+    if (data.status === 401 || 403){
+        localStorage.removeItem('tokens');
+    }
+        tokensOld.accessToken = data.data.accessToken;
+        tokensOld.refreshToken = data.data.refreshToken;
 
-    localStorage.setItem('tokens', JSON.stringify({accessToken, refreshToken}));
+        localStorage.setItem('tokens', JSON.stringify({accessToken:data.data.accessToken, refreshToken:data.data.refreshToken}));
+
+
 
 }

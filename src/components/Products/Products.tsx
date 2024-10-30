@@ -18,12 +18,19 @@ const Products = () => {
 
         getProducts()
             .then(products => {
-               setProducts(products)
+                if (products) {
+                    setProducts(prevState => products)
+                }
             })
             .catch(reason => {
                 if (tokensOld.refreshToken){
                     refresh()
-                        .then(value => getProducts())
+                        .then(value => getProducts()
+                            .then(products => {
+                                if (products) {
+                                    setProducts(prevState => products)
+                                }
+                            }))
                 }else {
 
                         if (token){
