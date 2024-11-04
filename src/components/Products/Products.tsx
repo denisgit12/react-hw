@@ -33,7 +33,6 @@ const Products = () => {
                             navigate('/login')
                         }
                     }
-
                 }
             })
 
