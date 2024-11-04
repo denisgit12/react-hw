@@ -15,39 +15,59 @@ const Products = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        getProducts()
-            .then(products => {
-                if (products) {
-                    setProducts(prevState => products)
-                }
-            })
-            .catch(reason => {
-                if (tokensOld.refreshToken){
-                    refresh()
-                        .then(value => getProducts()
-                            .then(products => {
-                                if (products) {
-                                    setProducts(prevState => products)
-                                }
-                            }))
-                }else {
-
-                        if (token){
+        getProducts().then(product => setProducts(product))
+            .catch(async (reason) => {
+                if (reason.response.status === 401) {
+                    if (tokensOld.refreshToken) {
+                        await refresh(navigate)
+                            // .then(value => getProducts()
+                            //     .then(products => {
+                            //         if (products) {
+                            //             setProducts(prevState => products)
+                            //         }
+                            //     }))
+                    } else {
+                        if (token) {
                             navigate('/')
-                        }
-                        else {
+                        } else {
                             navigate('/login')
                         }
+                    }
 
                 }
-
-
             })
+
+        // getProducts()
+        //     .then(products => {
+        //         if (products) {
+        //             setProducts(prevState => products)
+        //         }
+        //     })
+        //     .catch(reason => {
+        //         if (tokensOld.refreshToken){
+        //             refresh()
+        //                 .then(value => getProducts()
+        //                     .then(products => {
+        //                         if (products) {
+        //                             setProducts(prevState => products)
+        //                         }
+        //                     }))
+        //         }else {
+        //
+        //                 if (token){
+        //                     navigate('/')
+        //                 }
+        //                 else {
+        //                     navigate('/login')
+        //                 }
+        //
+        //         }
+        // })
+
     }, [tokensOld.refreshToken, token, navigate]);
     return (
         <div className={'headBoProduct'}>
-            {products.map(value =><Product product={value} key={value.id} /> )}
+            {products.map(value => <Product product={value} key={value.id}/>)}
         </div>
     );
 };

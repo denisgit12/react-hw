@@ -5,6 +5,7 @@ import {IProduct} from "../models/IProduct";
 import {BaseResponse} from "../models/BaseResponse";
 import {ITokens} from "../models/ITokens";
 import {retriveLocalStorage} from "../helpers/retriveLocalStorage";
+import {AxiosError} from "axios";
 
 export const login = async ({username, password}: LoginFormProps): Promise<IUserWithToken> => {
     const {data} = await axiosInstance.post<IUserWithToken>('/login', {
@@ -28,20 +29,31 @@ export const getProducts = async (): Promise<IProduct[]> => {
     const {data} = await axiosInstance.get<BaseResponse & { products: IProduct[] }>('/products')
     return data.products
 }
-export const refresh = async () => {
-    const tokensOld = retriveLocalStorage<ITokens>('tokens');
 
-    const data = await axiosInstance.post<ITokens>('/refresh', {
-        refreshToken: tokensOld.refreshToken,
-        expiresInMins: 1
-    })
-    if (data.status === 401 || 403){
-        localStorage.removeItem('tokens');
+export const refresh = async (navigate: any) => {
+    try {
+        const tokensOld = retriveLocalStorage<ITokens>('tokens');
+
+        const response = await axiosInstance.post<ITokens>('/refresh', {
+            refreshToken: tokensOld.refreshToken,
+            expiresInMins: 1
+        })
+
+        tokensOld.accessToken = response.data.accessToken;
+        tokensOld.refreshToken = response.data.refreshToken;
+
+        localStorage.setItem('tokens', JSON.stringify({
+            accessToken:response.data.accessToken,
+            refreshToken:response.data.refreshToken
+        }));
+
+    }catch (e) {
+        const axiosError = e as AxiosError;
+        if (axiosError.response && axiosError.response.status === 403) {
+            localStorage.removeItem('tokens');
+            navigate('/login')
+        }
     }
-        tokensOld.accessToken = data.data.accessToken;
-        tokensOld.refreshToken = data.data.refreshToken;
-
-        localStorage.setItem('tokens', JSON.stringify({accessToken:data.data.accessToken, refreshToken:data.data.refreshToken}));
 
 
 
