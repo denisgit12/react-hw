@@ -31,6 +31,7 @@ export let useStore = create<StoreType>()((set) => {
                 }))
             }
         },
+
         commentSlice: {
             allComments: [],
             loadComments: (comments: IComment[]) => {
